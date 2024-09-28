@@ -6,14 +6,14 @@ type AppStateType = {
   pitcher: string | null;
   players: {
     name: string,
-    score: number,
   }[];
-  state: "joining" | "preping" | "pitching" | "ending";
+  state: "joining" | "preping" | "pitching" | "voting" | "ending";
   countdown: number;
   ourName: string | null;
   setOurName: (name: string) => void;
   join: (name: string) => void;
   socket: MutableRefObject<Socket | undefined>;
+  scores: {name: string, score: number}[];
 }
 
 const AppStateContext = createContext<AppStateType>({} as AppStateType);
@@ -27,6 +27,10 @@ export default function AppStateProvider(props: {children: React.ReactNode}) {
   const [state, setState] = useState<AppStateType["state"]>("joining")
   const [countdown, setCountDown] = useState<AppStateType["countdown"]>(60)
   const [ourName, setOurName] = useState<string | null>(null)
+  const [scores, setScores] = useState<{
+    name: string,
+    score: number,
+  }[]>([])
 
   const socketRef = useRef<Socket | undefined>(undefined);
 
@@ -45,11 +49,16 @@ export default function AppStateProvider(props: {children: React.ReactNode}) {
       setState(info.state)
       setCountDown(info.countdown)
     })
+    
+    socketRef.current.on("scoreboard", (info) => {
+      setScores(info)
+    })
   }, [])
 
   return (
     <AppStateContext.Provider
       value={{
+        scores,
         socket: socketRef,
         join: (name: string) => {
           socketRef.current?.emit("join", { username: name })

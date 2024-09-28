@@ -1,12 +1,19 @@
+import { useNavigate } from 'react-router';
 import { useAppStateContext } from './AppStateContext'
 import Countdown from './Countdown'
 import Draw from './Draw'
 
 function Pitch() {
-  const {pitcher, ourName} = useAppStateContext()
+  const {pitcher, ourName, state} = useAppStateContext()
 
   const isPitching = pitcher === ourName;
   const pitchingPlayer = pitcher;
+
+  const navigate = useNavigate()
+
+  if (state !== "pitching") {
+    navigate("/scoring")
+  }
 
   return (
     <>

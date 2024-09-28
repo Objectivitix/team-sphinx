@@ -1,19 +1,27 @@
-import './App.css'
+import { useNavigate } from 'react-router'
+import { useAppStateContext } from './AppStateContext'
 
-type Ranking = {username: string, score: number}[]
+function Rank() {
+  const { host, state, scores, ourName } = useAppStateContext()
+ 
+  const isHost = host === ourName
+  const navigate = useNavigate()
 
-function Rank(props: {host: boolean, ranking: Ranking}) {
+  if (state !== "ending") {
+    navigate("/lobby")
+  }
+
   return (
     <>
       <h1>Final ranking</h1>
       <ol>
-        {props.ranking.map(({username, score}) => {
+        {scores.map(({name, score}) => {
           return (
-            <li key={username}>{username} at {score} points</li>
+            <li key={name}>{name} at {score} points</li>
           )
         })}
       </ol>
-      {props.host ? <button>Play Again</button> : ""}
+      {isHost ? <button>Play Again</button> : ""}
     </>
   )
 }

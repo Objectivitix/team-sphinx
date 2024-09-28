@@ -11,6 +11,8 @@ import Lobby from './Lobby.tsx';
 import AppStateProvider from './AppStateContext.tsx';
 import Pitch from './Pitch.tsx';
 import Prep from './Prep.tsx';
+import Rank from './Rank.tsx';
+import Scoring from './Scoring.tsx';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path: "/prep",
     element: <Prep />
+  },
+  {
+    path: "/scoring",
+    element: <Scoring />
+  },
+  {
+    path: "/ending",
+    element: <Rank />
   }
 ]);
 

@@ -11,7 +11,7 @@ export class Game {
     id: string,
   }[] = [];
   pitch_order: string[] = [];
-  state: "joining" | "preping" | "pitching" | "ending" = "joining";
+  state: "joining" | "preping" | "pitching" | "voting" | "ending" = "joining";
   socket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
   countdown: number = 60;
 
@@ -67,6 +67,7 @@ export class Game {
     if (this.pitch_order.length === 0) {
       this.state = "ending";
       this.socket.emit("scoreboard", [this.players.map((player) => ({name: player.name, score: player.score}))]);
+      return;
     }
 
     if (this.countdown == 0) {
