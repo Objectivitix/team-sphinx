@@ -7,6 +7,8 @@ export class Game {
   state: "joining" | "preping" | "pitching" = "joining";
 
   join(name: string) {
+    if (this.players.some(player => player.name === name)) return;
+
     if (this.players.length === 0) {
       this.host = name;
     }

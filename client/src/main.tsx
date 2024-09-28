@@ -6,12 +6,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import JoinPage from './join.tsx';
+import JoinPage from './Join.tsx';
+import Lobby from './Lobby.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <JoinPage></JoinPage>,
+    element: <JoinPage />
+  },
+  {
+    path: "/lobby",
+    element: <Lobby />
   },
 ]);
 

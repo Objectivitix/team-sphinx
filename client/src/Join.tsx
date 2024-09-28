@@ -6,7 +6,9 @@ export default function JoinPage() {
 
   useEffect(() => {
     if (!socketRef.current) {
-      const socket = io("http://localhost:3000");
+      const socket = io("http://localhost:4000", {
+        withCredentials: true,
+      });
       socketRef.current = socket;
     }
   }, [])
