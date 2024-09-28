@@ -15,13 +15,12 @@ const io = new Server(server, {
   }
 });
 
-const game = new Game();
+const game = new Game(io);
 
 io.on('connection', (socket) => {
   console.log("a user connected")
 
   socket.on("join", (player) => {
-    console.log(game.players)
     game.join(player.username)
   })
 })
