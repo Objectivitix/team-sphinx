@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router'
 import { useAppStateContext } from './AppStateContext'
+import { useEffect } from 'react'
 
 function Rank() {
   const { host, state, scores, ourName } = useAppStateContext()
@@ -7,9 +8,11 @@ function Rank() {
   const isHost = host === ourName
   const navigate = useNavigate()
 
-  if (state !== "ending") {
-    navigate("/lobby")
-  }
+  useEffect(() => {
+    if (state !== "ending") {
+      navigate("/lobby")
+    }
+  }, [])
 
   return (
     <>
@@ -21,7 +24,9 @@ function Rank() {
           )
         })}
       </ol>
-      {isHost ? <button>Play Again</button> : ""}
+      {isHost ? <button onClick={() => {
+        navigate("/lobby")
+      }}>Play Again</button> : ""}
     </>
   )
 }

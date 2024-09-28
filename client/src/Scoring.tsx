@@ -1,13 +1,16 @@
 import { useNavigate } from 'react-router'
 import Countdown from './Countdown'
 import { useAppStateContext } from './AppStateContext'
+import { useState } from 'react'
 
 function Scoring() {
-  const { state, players } = useAppStateContext()
+  const { state, players, socket } = useAppStateContext()
 
   const navigate = useNavigate()
+  const [voted, setVoted] = useState<string | null>(null);
 
-  if (state !== "voting") {
+  if (state === "ending") {
+    socket.current?.emit("vote", voted)
     navigate("/ending")
   }
 
@@ -19,7 +22,9 @@ function Scoring() {
           return (
             <div>
               <label htmlFor={player.name}>{player.name}</label>
-              <input type="text" id={player.name} />
+              <input type="radio" name='rating' onClick={() => {
+                setVoted(player.name)
+              }} id={player.name} />
             </div>
           )
         })}

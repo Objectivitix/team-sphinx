@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router';
 import { useAppStateContext } from './AppStateContext'
 import Countdown from './Countdown'
 import Draw from './Draw'
+import { useEffect } from 'react';
 
 function Pitch() {
   const {pitcher, ourName, state} = useAppStateContext()
@@ -11,9 +12,11 @@ function Pitch() {
 
   const navigate = useNavigate()
 
-  if (state !== "pitching") {
-    navigate("/scoring")
-  }
+  useEffect(() => {
+    if (state === "voting") {
+      navigate("/scoring")
+    }
+  }, [state])
 
   return (
     <>

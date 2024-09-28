@@ -27,6 +27,8 @@ export class Game {
     }
 
     this.players.push({ name, score: 0, id });
+
+    console.log(this.players)
   }
 
   vote(voter: string, votee: string) {
@@ -39,14 +41,13 @@ export class Game {
     }
   }
 
-  next_pitch() {
-    this.countdown = pres_time * 6;
-    this.state = "pitching"
-    const next = this.pitch_order.pop();
+  update_counter(dt: number) {
+    this.countdown = Math.max(this.countdown - (dt / 1000), 0);
+    return this.countdown === 0;
+  }
 
-    if (next) {
-      this.pitcher = next;
-    }
+  reset(counter: number) {
+    this.countdown = counter
   }
 
   loop(dt: number) {
@@ -62,22 +63,27 @@ export class Game {
       return;
     }
 
-    this.countdown = Math.max(this.countdown - (dt / 1000), 0);
-    
-    if (this.pitch_order.length === 0) {
-      this.state = "ending";
-      this.socket.emit("scoreboard", [this.players.map((player) => ({name: player.name, score: player.score}))]);
-      return;
-    }
-
-    if (this.countdown == 0) {
-      if (this.state === "pitching") {
-        this.next_pitch()
+    let complete = this.update_counter(dt)
+     
+    if (complete) {
+      if (this.state === "voting") {
+        this.state = "ending"
+        this.socket.emit("scoreboard", this.players.map((player) => ({name: player.name, score: player.score})))
       }
 
-      if (this.state === "preping") {
-        this.next_pitch()
-      }  
+      if (this.state === "preping" || this.state === "pitching") {
+        const next_pitcher = this.pitch_order.pop();
+
+        if (next_pitcher) {
+          this.state = "pitching"
+          this.reset(5)
+          this.pitcher = next_pitcher
+        } else {
+          this.state = "voting"
+          this.reset(10)
+          this.pitcher = null
+        }
+      }
     }
   }
 

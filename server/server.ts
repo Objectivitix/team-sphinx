@@ -33,8 +33,16 @@ io.on('connection', (socket) => {
       game.pitch_order.push(player.name)
     }
 
-    game.countdown = prep_time * 12;
+    game.reset(6);
     game.state = "preping";
+  })
+
+  socket.on("vote", (voted) => {
+    const player = game.players.find(({name}) => name === voted)
+
+    if (player) {
+      player.score += 1;
+    }
   })
 
   socket.on("disconnect", () => {

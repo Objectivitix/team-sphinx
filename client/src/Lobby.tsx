@@ -7,7 +7,7 @@ function Lobby() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (state !== "joining") {
+    if (state === "preping") {
       navigate("/prep")
     }
   }, [state])
