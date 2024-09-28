@@ -1,26 +1,35 @@
-import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
+import { useAppStateContext } from './AppStateContext';
+import { useEffect } from 'react';
 
 function Lobby() {
-  const [host, setHost] = useState<string | undefined>(undefined)
-  const [players, setPlayers] = useState<{
-    name: string,
-    score: number,
-  }[]>([])
+  const { players, host, ourName, socket, state } = useAppStateContext()
+  const navigate = useNavigate()
 
   useEffect(() => {
-     
-  }, [])
+    if (state !== "joining") {
+      navigate("/pitch")
+    }
+  }, [state])
+
+  if (players.length === 0) {
+    return <>No Players</>
+  }
 
   return (
     <>
-      <h1>{host ? "You're host!" : ""} The other players are</h1>
+      <h1>Welcome To The Lobby</h1>
       <ul>
         {players.map((player) => {
-          return <li key={player.name}>{player.name} {player.name === host ? "👑" : ""}</li>;
+          return <li style={{
+            fontWeight: player.name == ourName ? "bold" : "regular",
+          }} key={player.name}>{player.name} {player.name === host ? "👑" : ""}</li>;
         })}
       </ul>
-      {host
-      ? <button>Start Game</button>
+      {host === ourName
+      ? <button onClick={() => {
+        socket.current?.emit("start")
+      }}>Start Game</button>
       : <p>Waiting for host to start game...</p>}
     </>
   )

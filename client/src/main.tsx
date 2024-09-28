@@ -8,6 +8,9 @@ import {
 } from "react-router-dom";
 import JoinPage from './Join.tsx';
 import Lobby from './Lobby.tsx';
+import AppStateProvider from './AppStateContext.tsx';
+import Pitch from './Pitch.tsx';
+import Prep from './Prep.tsx';
 
 const router = createBrowserRouter([
   {
@@ -18,10 +21,20 @@ const router = createBrowserRouter([
     path: "/lobby",
     element: <Lobby />
   },
+  {
+    path: "/pitch",
+    element: <Pitch />
+  },
+  {
+    path: "/prep",
+    element: <Prep />
+  }
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AppStateProvider>
+      <RouterProvider router={router} />
+    </AppStateProvider>
   </StrictMode>,
 )

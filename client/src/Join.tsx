@@ -1,17 +1,9 @@
-import { useEffect, useRef } from "react";
-import { io, Socket } from "socket.io-client";
+import { useNavigate } from "react-router";
+import { useAppStateContext } from "./AppStateContext";
 
 export default function JoinPage() {
-  const socketRef = useRef<Socket | undefined>(undefined);
-
-  useEffect(() => {
-    if (!socketRef.current) {
-      const socket = io("http://localhost:4000", {
-        withCredentials: true,
-      });
-      socketRef.current = socket;
-    }
-  }, [])
+  const { join, setOurName } = useAppStateContext();
+  const navigate = useNavigate();
 
   return (
     <form style={{
@@ -35,7 +27,9 @@ export default function JoinPage() {
       }
 
       if ("username" in info && info.username && info.username.length > 0) {
-        socketRef.current?.emit("join", { username: info.username })
+        join(info.username)
+        setOurName(info.username) 
+        navigate("/lobby")
       }
 
       e.preventDefault();

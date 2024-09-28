@@ -1,5 +1,3 @@
-import './App.css'
-
 function Draw(props: {isPitching: boolean}) {
   return (
     props.isPitching

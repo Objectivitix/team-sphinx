@@ -1,12 +1,17 @@
-import './App.css'
+import { useAppStateContext } from './AppStateContext'
 import Countdown from './Countdown'
 import Draw from './Draw'
 
-function Pitch(props: {isPitching: boolean, pitchingPlayer: string}) {
+function Pitch() {
+  const {pitcher, ourName} = useAppStateContext()
+
+  const isPitching = pitcher === ourName;
+  const pitchingPlayer = pitcher;
+
   return (
     <>
-      <h1>{props.isPitching ? "PITCH IT!" : `${props.pitchingPlayer}'s pitch`}</h1>
-      <Draw isPitching={props.isPitching} />
+      <h1>{isPitching ? "PITCH IT!" : `${pitchingPlayer}'s pitch`}</h1>
+      <Draw isPitching={isPitching} />
       <div><Countdown /> remaining</div>
     </>
   )

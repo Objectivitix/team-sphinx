@@ -1,5 +1,6 @@
-import { count } from "console";
 import { DefaultEventsMap, Server } from "socket.io";
+
+const pres_time = 2;
 
 export class Game {
   host: string | null = null;
@@ -7,6 +8,7 @@ export class Game {
   players: {
     name: string,
     score: number,
+    id: string,
   }[] = [];
   pitch_order: string[] = [];
   state: "joining" | "preping" | "pitching" | "ending" = "joining";
@@ -17,14 +19,14 @@ export class Game {
     this.socket = socket;
   }
 
-  join(name: string) {
+  join(name: string, id: string) {
     if (this.players.some(player => player.name === name)) return;
 
     if (this.players.length === 0) {
       this.host = name;
     }
 
-    this.players.push({name, score: 0});
+    this.players.push({ name, score: 0, id });
   }
 
   vote(voter: string, votee: string) {
@@ -38,6 +40,7 @@ export class Game {
   }
 
   next_pitch() {
+    this.countdown = pres_time * 60;
     this.state = "pitching"
     this.pitcher = this.pitch_order.pop() ?? null;
   }
@@ -45,20 +48,21 @@ export class Game {
   loop(dt: number) {
     this.socket.volatile.emit("info", {
       host: this.host, 
-      players: this.players,
+      players: this.players.map((player) => ({name: player.name})),
       state: this.state,
       pitcher: this.pitcher,
+      countdown: this.countdown,
     })
 
     if (this.state === "joining") {
       return;
     }
 
-    this.countdown -= dt;
-    if (this.countdown < 0) this.countdown = 0;
+    this.countdown = Math.max(this.countdown - dt, 0);
     
     if (this.pitch_order.length === 0) {
-      this.state = "ending"; // broadcast end screen
+      this.state = "ending";
+      this.socket.emit("scoreboard", [this.players.map((player) => ({name: player.name, score: player.score}))]);
     }
 
     if (this.countdown == 0) {
