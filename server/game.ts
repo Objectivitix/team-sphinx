@@ -13,7 +13,7 @@ export class Game {
   pitch_order: string[] = [];
   state: "joining" | "preping" | "pitching" | "ending" = "joining";
   socket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
-  countdown: number = 0;
+  countdown: number = 60;
 
   constructor(socket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>) {
     this.socket = socket;
@@ -40,9 +40,13 @@ export class Game {
   }
 
   next_pitch() {
-    this.countdown = pres_time * 60;
+    this.countdown = pres_time * 6;
     this.state = "pitching"
-    this.pitcher = this.pitch_order.pop() ?? null;
+    const next = this.pitch_order.pop();
+
+    if (next) {
+      this.pitcher = next;
+    }
   }
 
   loop(dt: number) {
@@ -58,7 +62,7 @@ export class Game {
       return;
     }
 
-    this.countdown = Math.max(this.countdown - dt, 0);
+    this.countdown = Math.max(this.countdown - (dt / 1000), 0);
     
     if (this.pitch_order.length === 0) {
       this.state = "ending";
@@ -66,13 +70,13 @@ export class Game {
     }
 
     if (this.countdown == 0) {
-      if (this.state === "preping") {
-        this.next_pitch()
-      }
-      
       if (this.state === "pitching") {
         this.next_pitch()
       }
+
+      if (this.state === "preping") {
+        this.next_pitch()
+      }  
     }
   }
 

@@ -8,7 +8,7 @@ function Lobby() {
 
   useEffect(() => {
     if (state !== "joining") {
-      navigate("/pitch")
+      navigate("/prep")
     }
   }, [state])
 

@@ -29,8 +29,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on("start", () => {
-    console.log("hi")
-    game.countdown = prep_time;
+    for (const player of game.players) {
+      game.pitch_order.push(player.name)
+    }
+
+    game.countdown = prep_time * 12;
     game.state = "preping";
   })
 

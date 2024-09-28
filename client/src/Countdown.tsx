@@ -1,5 +1,8 @@
+import { useAppStateContext } from "./AppStateContext"
+
 function Countdown() {
-  return "60 s"
+  const { countdown } = useAppStateContext()
+  return countdown
 }
 
 export default Countdown
