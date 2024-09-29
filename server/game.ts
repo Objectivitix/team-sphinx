@@ -11,6 +11,7 @@ export class Game {
     id: string,
   }[] = [];
   pitch_order: string[] = [];
+  current_pitch: {points: {x: number, y: number}[], color: boolean, size: number}[] = [];
   state: "joining" | "preping" | "pitching" | "voting" | "ending" = "joining";
   socket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
   countdown: number = 60;
@@ -76,7 +77,7 @@ export class Game {
 
         if (next_pitcher) {
           this.state = "pitching"
-          this.reset(5)
+          this.reset(115)
           this.pitcher = next_pitcher
         } else {
           this.state = "voting"

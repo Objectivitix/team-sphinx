@@ -55,6 +55,7 @@ export default function JoinPage() {
         style={{
           width: "20vw",
           height: "10vh",
+          border: "0.125rem solid black",
           borderRadius: "10px",
           marginBottom: "4vh",
           textAlign: "center",
@@ -68,6 +69,7 @@ export default function JoinPage() {
           width: "20vw",
           height: "10vh",
           borderRadius: "10px",
+          border: "0.125rem solid black",
           textAlign: "center",
           padding: "0",
           fontSize: "min(4.5vw, 6vh)",
@@ -77,7 +79,7 @@ export default function JoinPage() {
           fontFamily: "Itim, sans-serif",
         }}
       >
-        Submit
+        Start
       </button>
     </form>
   );

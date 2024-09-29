@@ -40,7 +40,11 @@ function Lobby() {
           <h1 style={{
             marginBottom: ".75rem",
           }}>Welcome To The Lobby</h1>
-          <div>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+          }}>
             {players.map((player) => {
               return <div style={{
                 backgroundColor: "white",
