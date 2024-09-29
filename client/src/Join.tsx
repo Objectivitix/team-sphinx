@@ -8,8 +8,10 @@ export default function JoinPage() {
   return (
     <form
       style={{
-        width: "100%",
+        width: "100vw",
         height: "100vh",
+        margin: "0",
+        padding: "0",
         display: "flex",
         justifyContent: "flex-start",
         alignItems: "center",
@@ -45,7 +47,7 @@ export default function JoinPage() {
       <img
         src="public/icons/logo.png"
         alt="Pitchionary"
-        style={{ width: "60vw", marginTop: "6vw", marginBottom: "4vw" }}
+        style={{ width: "60vw", marginTop: "13vh", marginBottom: "9vh" }}
       />
       <input
         name="username"
@@ -54,9 +56,10 @@ export default function JoinPage() {
           width: "20vw",
           height: "10vh",
           borderRadius: "10px",
-          marginBottom: "2vw",
+          marginBottom: "4vh",
           textAlign: "center",
-          fontSize: "calc(0.08 * 100vh)",
+          fontSize: "min(4vw, 6vh)",
+          boxSizing: "border-box",
           fontFamily: "Itim, sans-serif",
         }}
       ></input>
@@ -65,9 +68,12 @@ export default function JoinPage() {
           width: "20vw",
           height: "10vh",
           borderRadius: "10px",
+          textAlign: "center",
+          padding: "0",
+          fontSize: "min(4.5vw, 6vh)",
           cursor: "pointer",
-          fontSize: "calc(0.08 * 100vh)",
-          padding: "0px 0px 5% 0px",
+          lineHeight: "1vh",
+          boxSizing: "border-box",
           fontFamily: "Itim, sans-serif",
         }}
       >
