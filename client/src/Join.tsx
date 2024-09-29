@@ -57,7 +57,7 @@ export default function JoinPage() {
           height: "10vh",
           border: "0.125rem solid black",
           borderRadius: "10px",
-          marginBottom: "4vh",
+          marginBottom: "1.5rem",
           textAlign: "center",
           fontSize: "min(4vw, 6vh)",
           boxSizing: "border-box",

@@ -1,9 +1,12 @@
-import { createContext, MutableRefObject, RefObject, useContext, useEffect, useRef, useState } from "react";
+import { createContext, MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+
+type Pitch = { name: string, pitch: string, modifiers: string[] };
 
 type AppStateType = {
   host: string | null;
-  pitcher: string | null;
+  pitch: Pitch | null;
+  myPitch: Pitch | null;
   players: {
     name: string,
   }[];
@@ -22,7 +25,8 @@ export const useAppStateContext = () => useContext(AppStateContext)
 
 export default function AppStateProvider(props: {children: React.ReactNode}) {
   const [host, setHost] = useState<AppStateType["host"]>(null)
-  const [pitcher, setPitcher] = useState<AppStateType["pitcher"]>(null)
+  const [pitch, setPitch] = useState<AppStateType["pitch"]>(null)
+  const [myPitch, mySetPitch] = useState<AppStateType["myPitch"]>(null)
   const [players, setPlayers] = useState<AppStateType["players"]>([])
   const [state, setState] = useState<AppStateType["state"]>("joining")
   const [countdown, setCountDown] = useState<AppStateType["countdown"]>(60)
@@ -41,11 +45,15 @@ export default function AppStateProvider(props: {children: React.ReactNode}) {
       });
       socketRef.current = socket;
     }
+    
+    socketRef.current.on("pitch", (info) => {
+      mySetPitch(info)
+    })
 
     socketRef.current.on("info", (info) => {
       setPlayers(info.players)
       setHost(info.host)
-      setPitcher(info.pitcher)
+      setPitch(info.pitch)
       setState(info.state)
       setCountDown(info.countdown)
     })
@@ -65,7 +73,8 @@ export default function AppStateProvider(props: {children: React.ReactNode}) {
         },
         host,
         players,
-        pitcher,
+        pitch,
+        myPitch,
         countdown,
         state,
         setOurName,

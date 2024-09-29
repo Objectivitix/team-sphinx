@@ -2,15 +2,17 @@ import { DefaultEventsMap, Server } from "socket.io";
 
 const pres_time = 2;
 
+type Pitch = {name: string, pitch: string, modifiers: string[] };
+
 export class Game {
   host: string | null = null;
-  pitcher: string | null = null;
+  pitch: Pitch | null = null;
   players: {
     name: string,
     score: number,
     id: string,
   }[] = [];
-  pitch_order: string[] = [];
+  pitch_order: Pitch[] = [];
   current_pitch: {points: {x: number, y: number}[], color: boolean, size: number}[] = [];
   state: "joining" | "preping" | "pitching" | "voting" | "ending" = "joining";
   socket: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>;
@@ -56,7 +58,7 @@ export class Game {
       host: this.host, 
       players: this.players.map((player) => ({name: player.name})),
       state: this.state,
-      pitcher: this.pitcher,
+      pitch: this.pitch,
       countdown: this.countdown,
     })
 
@@ -77,12 +79,12 @@ export class Game {
 
         if (next_pitcher) {
           this.state = "pitching"
-          this.reset(115)
-          this.pitcher = next_pitcher
+          this.reset(5)
+          this.pitch = next_pitcher
         } else {
           this.state = "voting"
-          this.reset(10)
-          this.pitcher = null
+          this.reset(5)
+          this.pitch = null
         }
       }
     }

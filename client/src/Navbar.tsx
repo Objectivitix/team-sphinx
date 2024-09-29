@@ -8,11 +8,13 @@ export default function Navbar() {
       padding: "0.5rem",
       display: "flex",
       overflow: "hidden",
-      justifyContent: "center"
+      justifyContent: "center",
+      zIndex: "-2",
     }}>
       <a href="/">
         <img style={{
           width: "24rem",
+          zIndex: "-2",
           height: "7rem",
           textAlign: "center",
         }} src={Logo} />
