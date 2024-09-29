@@ -9,6 +9,8 @@ function Rank() {
   const isHost = host === ourName;
   const navigate = useNavigate();
 
+  const sortedScores = scores.sort((a, b) => b.score - a.score)
+
   useEffect(() => {
     if (state !== "ending") {
       navigate("/lobby");
@@ -70,7 +72,7 @@ function Rank() {
           Scores
         </h1>
       </div>
-      {scores.map(({ name, score }, index) => {
+      {sortedScores.map(({ name, score }, index) => {
         return (
           <div
             key={name}

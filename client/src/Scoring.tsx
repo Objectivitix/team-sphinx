@@ -1,18 +1,20 @@
 import { useNavigate } from 'react-router'
 import Countdown from './Countdown'
 import { useAppStateContext } from './AppStateContext'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Scoring() {
-  const { state, players, socket } = useAppStateContext()
+  const { state, players, socket, ourName } = useAppStateContext()
 
   const navigate = useNavigate()
   const [voted, setVoted] = useState<string | null>(null);
 
-  if (state === "ending") {
-    socket.current?.emit("vote", voted)
-    navigate("/ending")
-  }
+  useEffect(() => {
+    if (state === "ending") {
+      socket.current?.emit("vote", voted)
+      setTimeout(() => navigate("/ending"), 300);
+    }
+  }, [state])
 
   return (
     <>
