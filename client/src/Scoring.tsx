@@ -20,7 +20,7 @@ function Scoring() {
       <div>
         {players.map((player) => {
           return (
-            <div>
+            <div key={player.name}>
               <label htmlFor={player.name}>{player.name}</label>
               <input type="radio" name='rating' onClick={() => {
                 setVoted(player.name)

@@ -21,8 +21,8 @@ function Pitch() {
   return (
     <>
       <h1>{isPitching ? "PITCH IT!" : `${pitchingPlayer}'s pitch`}</h1>
-      <Draw isPitching={isPitching} />
       <div><Countdown /> remaining</div>
+      <Draw isPitching={isPitching} />
     </>
   )
 }
