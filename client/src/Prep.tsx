@@ -4,7 +4,7 @@ import Countdown from './Countdown'
 import { useEffect } from 'react'
 
 function Prep() {
-  const { state } = useAppStateContext()
+  const { state, myPitch } = useAppStateContext()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -25,6 +25,11 @@ function Prep() {
       }}>
         <h1>PREP - YOUR - PITCH!</h1>
         <p><Countdown /> remaining</p>
+        <p style={{fontSize: "1.5rem"}}>{myPitch?.pitch}</p>
+        <p style={{
+          marginTop: "-0.25rem",
+          marginBottom: "0.75rem"
+        }}>{myPitch?.modifiers.map((modifiers, i) => <>{modifiers} {(i < modifiers.length+1) ? " · " : ""}</>)}</p>
       </div>
     </>
   )

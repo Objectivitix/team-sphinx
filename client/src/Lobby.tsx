@@ -19,10 +19,25 @@ function Lobby() {
   }
 
   return (
-    <>
-      <Navbar></Navbar>
+    <div style={{
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "100vh",
+    }}>
       <div style={{
-        width: "100%",
+        position: "absolute",
+        top: "12vh",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+      }}>
+        <Navbar></Navbar>
+      </div>
+      <div style={{
+        width: "90%",
+        height: "60vh",
         display: "grid",
         gridTemplateColumns: "24rem 1fr",
         gap: "1rem",
@@ -33,7 +48,7 @@ function Lobby() {
         <div style={{
           background: "rgb(230, 230, 230)",
           borderRadius: "16px",
-          height: "24rem",
+          height: "",
           boxSizing: "border-box",
           padding: "1rem",
         }}>
@@ -74,7 +89,6 @@ function Lobby() {
         <div style={{
           background: "rgb(230, 230, 230)",
           borderRadius: "16px",
-          height: "24rem",
           boxSizing: "border-box",
           padding: "1rem",
           display: "flex",
@@ -109,7 +123,7 @@ function Lobby() {
           })}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

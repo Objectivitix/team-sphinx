@@ -18,8 +18,19 @@ const io = new Server(server, {
 const game = new Game(io);
 const prep_time = 1;
 
+const pitch_sets = [
+  {pitch: "a", modifiers: ["a", "b", "c"]},
+  {pitch: "b", modifiers: ["b", "a", "c"]},
+  {pitch: "c", modifiers: ["c", "a", "b"]}
+]
+
 io.on('connection', (socket) => {
   console.log("a user connected")
+
+  socket.on("draw", (image) => {
+    game.current_pitch = image
+    io.emit("drawed", image)
+  })
 
   socket.on("join", (player) => {
     if (game.state !== "joining") {
@@ -30,7 +41,14 @@ io.on('connection', (socket) => {
 
   socket.on("start", () => {
     for (const player of game.players) {
-      game.pitch_order.push(player.name)
+      const pitch = {
+        name: player.name,
+        ...pitch_sets[Math.floor(Math.random() * pitch_sets.length)]
+      }
+
+      game.pitch_order.push(pitch)
+
+      socket.emit("pitch", pitch)
     }
 
     game.reset(6);
@@ -48,7 +66,7 @@ io.on('connection', (socket) => {
   socket.on("disconnect", () => {
     const player = game.players.find((player) => player.id === socket.id)
 
-    game.pitch_order = game.pitch_order.filter((name) => name !== player?.name)
+    game.pitch_order = game.pitch_order.filter(({name}) => name !== player?.name)
     game.players = game.players.filter((player) => player.id !== socket.id)
 
     if (player?.name === game.host) {
