@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router'
 import Countdown from './Countdown'
 import { useAppStateContext } from './AppStateContext'
+
 import { useState, useEffect, useRef } from 'react'
 
 function Scoring() {
-  const { state, players, socket, countdown } = useAppStateContext()
+  const { state, players, socket, countdown, ourName } = useAppStateContext()
 
   const navigate = useNavigate()
   const [voted, setVoted] = useState<string | null>(null);

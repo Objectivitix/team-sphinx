@@ -100,7 +100,7 @@ function Lobby() {
             { name: "pres time", value: "120" },
             { name: "vote time", value: "20" },
           ].map(({name, value}) => {
-            return <div
+            return <div key={name}
             style={{
               display: "flex",
               gap: "0.5rem",
