@@ -6,37 +6,79 @@ export default function JoinPage() {
   const navigate = useNavigate();
 
   return (
-    <form style={{
-      width: "100%",
-      height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-    }} onSubmit={(e) => {
-      const formData = new FormData(e.currentTarget)
+    <form
+      style={{
+        width: "100vw",
+        height: "100vh",
+        margin: "0",
+        padding: "0",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+      onSubmit={(e) => {
+        const formData = new FormData(e.currentTarget);
 
-      let info: Record<string, string> = {};
+        let info: Record<string, string> = {};
 
-      for (const [key, value] of formData) {
-        if (value instanceof File) {
-          continue;
+        for (const [key, value] of formData) {
+          if (value instanceof File) {
+            continue;
+          }
+
+          info[key] = value;
         }
 
-        info[key] = value;
-      }
+        if ("username" in info && info.username && info.username.length > 0) {
+          join(info.username);
+          setOurName(info.username);
+          navigate("/lobby");
+        }
 
-      if ("username" in info && info.username && info.username.length > 0) {
-        join(info.username)
-        setOurName(info.username) 
-        navigate("/lobby")
-      }
-
-      e.preventDefault();
-    }}>
-      <h1>Pitchionary</h1>
-      <input name="username" placeholder="username"></input>
-      <button>submit</button>
+        e.preventDefault();
+      }}
+    >
+      {" "}
+      <link
+        href="https://fonts.googleapis.com/css?family=Itim"
+        rel="stylesheet"
+      ></link>
+      <img
+        src="public/icons/logo.png"
+        alt="Pitchionary"
+        style={{ width: "60vw", marginTop: "13vh", marginBottom: "9vh" }}
+      />
+      <input
+        name="username"
+        placeholder="Username"
+        style={{
+          width: "20vw",
+          height: "10vh",
+          borderRadius: "10px",
+          marginBottom: "4vh",
+          textAlign: "center",
+          fontSize: "min(4vw, 6vh)",
+          boxSizing: "border-box",
+          fontFamily: "Itim, sans-serif",
+        }}
+      ></input>
+      <button
+        style={{
+          width: "20vw",
+          height: "10vh",
+          borderRadius: "10px",
+          textAlign: "center",
+          padding: "0",
+          fontSize: "min(4.5vw, 6vh)",
+          cursor: "pointer",
+          lineHeight: "1vh",
+          boxSizing: "border-box",
+          fontFamily: "Itim, sans-serif",
+        }}
+      >
+        Submit
+      </button>
     </form>
-  )
+  );
 }
